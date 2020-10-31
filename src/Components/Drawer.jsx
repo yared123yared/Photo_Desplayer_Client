@@ -17,8 +17,16 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import Album from './Album'
+import Button from '@material-ui/core/Button';
+
+import Card from '@material-ui/core/Card';
+import CardActions from '@material-ui/core/CardActions';
+import CardContent from '@material-ui/core/CardContent';
+import CardMedia from '@material-ui/core/CardMedia';
+
 
 const drawerWidth = 240;
+const bgColor= "#424242";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -28,12 +36,15 @@ const useStyles = makeStyles((theme) => ({
         [theme.breakpoints.up('sm')]: {
             width: drawerWidth,
             flexShrink: 0,
+            backgroundColor:bgColor,
         },
+        
     },
     appBar: {
         [theme.breakpoints.up('sm')]: {
             width: `calc(100% - ${drawerWidth}px)`,
             marginLeft: drawerWidth,
+           
         },
     },
     menuButton: {
@@ -64,26 +75,60 @@ function ResponsiveDrawer(props) {
     };
 
     const drawer = (
-        <div>
+        <div >
             <div className={classes.toolbar} />
+            <div>
+                <Card className={classes.card}>
+                    <CardMedia className={classes.cardMedia}
+                    component="img"
+                    className={classes.media}
+                    image="../Assets/Images/photo_2020-09-04_16-42-14.jpg"
+                    title="Contemplative Reptile"
+                 
+                    />
+
+                        {/* <img src={require('../Assets/Images/photo_2020-09-04_16-42-14.jpg')} alt="recipe thumbnail" /> */}
+                  
+
+
+
+                    <CardContent>
+                        <Typography gutterBottom variant="h5" component="h2">
+                            Yared Solomon
+    </Typography>
+                        <Typography>
+                            This is a media card. You can use this section to describe the content.
+    </Typography>
+                    </CardContent>
+
+
+
+
+
+
+
+
+                </Card>
+            </div>
             <Divider />
-            <List>
-                {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-                    <ListItem button key={text}>
-                        <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-                        <ListItemText primary={text} />
-                    </ListItem>
-                ))}
-            </List>
-            <Divider />
-            <List>
-                {['All mail', 'Trash', 'Spam'].map((text, index) => (
-                    <ListItem button key={text}>
-                        <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-                        <ListItemText primary={text} />
-                    </ListItem>
-                ))}
-            </List>
+            <h3>yared solomon</h3>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         </div>
     );
 
@@ -112,6 +157,7 @@ function ResponsiveDrawer(props) {
                 {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
                 <Hidden smUp implementation="css">
                     <Drawer
+                   style={{bgColor}} 
                         container={container}
                         variant="temporary"
                         anchor={theme.direction === 'rtl' ? 'right' : 'left'}
