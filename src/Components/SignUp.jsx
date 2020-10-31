@@ -14,10 +14,11 @@ import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import MenuItem from '@material-ui/core/MenuItem';
 
-
+import { withStyles } from '@material-ui/core/styles';
 import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
+import PropTypes from 'prop-types';
 
 
 
@@ -52,7 +53,7 @@ import Select from '@material-ui/core/Select';
 
 
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = theme => ({
     paper: {
         marginTop: theme.spacing(8),
         display: 'flex',
@@ -77,7 +78,7 @@ const useStyles = makeStyles((theme) => ({
     selectEmpty: {
         marginTop: theme.spacing(2),
     },
-}));
+});
 
 
 
@@ -89,7 +90,7 @@ class SignUp extends React.Component {
     state = {
         country: null,
         gender: null,
-        classes: null
+        // classes: null
     }
     Copyright = () => {
         return (
@@ -145,26 +146,26 @@ class SignUp extends React.Component {
         })
         // setGender(event.target.value);
     };
-    useThemStyles = () => {
-        this.state.classes = useStyles();
-    }
+
+
+
     render() {
 
-
-        console.log(this.classes.paper);
+        const { classes } = this.props;
+        console.log(classes.avatar);
 
         return (
 
             < Container component="main" maxWidth="xs" >
                 <CssBaseline />
-                <div className={this.classes.paper}>
-                    <Avatar className={this.classes.avatar}>
+                <div className={classes.paper}>
+                    <Avatar className={classes.avatar}>
                         <LockOutlinedIcon />
                     </Avatar>
                     <Typography component="h1" variant="h5">
                         Sign up
         </Typography>
-                    <form className={this.classes.form} noValidate>
+                    <form className={classes.form} noValidate>
                         <Grid container spacing={2}>
                             <Grid item xs={12} sm={6}>
                                 <TextField
@@ -200,7 +201,7 @@ class SignUp extends React.Component {
                                     autoComplete="email"
                                 />
                             </Grid>
-                            <FormControl className={this.classes.formControl}>
+                            <FormControl className={classes.formControl}>
                                 <InputLabel id="demo-simple-select-label">Country</InputLabel>
                                 <Select
                                     labelId="demo-simple-select-label"
@@ -268,7 +269,7 @@ class SignUp extends React.Component {
 
 
 
-                            <FormControl className={this.classes.formControl}>
+                            <FormControl className={classes.formControl}>
                                 <InputLabel id="demo-simple-select-label">Gender</InputLabel>
                                 <Select
                                     labelId="demo-simple-select-label"
@@ -318,13 +319,13 @@ class SignUp extends React.Component {
                             fullWidth
                             variant="contained"
                             color="primary"
-                            className={this.classes.submit}
+                            className={classes.submit}
                         >
                             Sign Up
           </Button>
                         <Grid container justify="flex-end">
                             <Grid item>
-                                <Link href="#" variant="body2">
+                                <Link href="/login" variant="body2">
                                     Already have an account? Sign in
               </Link>
                             </Grid>
@@ -338,4 +339,7 @@ class SignUp extends React.Component {
         );
     }
 }
-export default SignUp;
+
+
+
+export default withStyles(useStyles)(SignUp)
