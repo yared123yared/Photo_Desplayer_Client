@@ -82,7 +82,6 @@ export default function Album() {
                     <Container maxWidth="sm">
 
 
-                        <Heading />
 
 
 
