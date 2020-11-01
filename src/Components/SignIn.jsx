@@ -13,6 +13,7 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import { withStyles } from '@material-ui/core/styles';
+import '../../node_modules/bootstrap/dist/css/bootstrap.min.css'
 
 
 const useStyles = theme => ({
@@ -38,6 +39,7 @@ const useStyles = theme => ({
 class SignIn extends React.Component {
 
     state = {
+        displayOnLable: '',
         autorisedzUser: [],
         isAutorized: false,
         email: '',
@@ -89,14 +91,16 @@ class SignIn extends React.Component {
             if (user.email == singleUser[index].email) {
                 if (user.password == singleUser[index].password) {
                     console.log("autorized user");
+                    window.open("/home");
                     break;
                 } else {
 
-
+                    this.setState({ displayOnLable: 'Incorrect Password' });
                     console.log("incorrect password");
                     break;
                 }
             } else {
+                this.setState({ displayOnLable: 'Incorrect Email and Password' });
                 console.log("incorrect email and passowrd");
 
             }
@@ -121,6 +125,7 @@ class SignIn extends React.Component {
     }
 
     render() {
+        const text = this.state.displayOnLable;
         const { classes } = this.props;
         return (
             <Container component="main" maxWidth="xs">
@@ -132,7 +137,9 @@ class SignIn extends React.Component {
                     <Typography component="h1" variant="h5">
                         Sign in
         </Typography>
+
                     <form className={classes.form} noValidate>
+                        <div className=".text-danger">{text}</div>
                         <TextField
                             variant="outlined"
                             margin="normal"
