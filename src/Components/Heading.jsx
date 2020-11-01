@@ -14,12 +14,12 @@ class Heading extends React.Component {
     render() {
         return (
 
-            <AppBar position="relative">
+            <AppBar style={{ background: '#2E3B55' }} position="relative">
                 <Toolbar>
                     <CameraIcon />
-                    <Typography variant="h6" color="inherit" noWrap>
+                    <Typography variant="h6" color="inherit" noWrap className="primary">
                         Album layout
-                        <button onClick={this.handleLogOut} className=".btn button btn-primary">
+                        <button onClick={this.handleLogOut} className="btn button btn-danger">
                             logout
  </button>
                     </Typography>
