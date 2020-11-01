@@ -1,4 +1,5 @@
 import React from 'react';
+import axios from 'axios'
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -10,7 +11,7 @@ import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
-import { makeStyles } from '@material-ui/core/styles';
+
 import Container from '@material-ui/core/Container';
 import MenuItem from '@material-ui/core/MenuItem';
 
@@ -19,40 +20,6 @@ import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import PropTypes from 'prop-types';
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 const useStyles = theme => ({
     paper: {
         marginTop: theme.spacing(8),
@@ -88,10 +55,45 @@ class SignUp extends React.Component {
 
 
     state = {
-        country: null,
-        gender: null,
-        // classes: null
+
+
+
+
+        fName: '',
+        lName: '',
+        gender: '',
+        email: '',
+        workTitle: '',
+        country: '',
+        city: '',
+        password: '',
+        profilePictureName: 'yared.jpg'
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     }
+
+
+
+
+
+
     Copyright = () => {
         return (
             <Typography variant="body2" color="textSecondary" align="center">
@@ -105,35 +107,6 @@ class SignUp extends React.Component {
         );
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     handleCountryChange = (event) => {
         this.setState({
             country: event.target.value
@@ -146,6 +119,59 @@ class SignUp extends React.Component {
         })
         // setGender(event.target.value);
     };
+    HandleSubmit = (event) => {
+        console.log("submit button clicked");
+        // console.log("this is the value from the sumbit button", event.firstName);
+        // console.log(this.state.FName, this.state.LName, this.state.Email, this.state.City, this.state.Country, this.state.Password);
+        console.log(this.state.photographer);
+
+        //  post data to the api
+        /*
+        const requestOptions = {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ title: 'React POST Request Example' })
+        };
+        fetch('https://jsonplaceholder.typicode.com/posts', requestOptions)
+            .then(response => response.json())
+            .then(data => this.setState({ postId: data.id }));
+            */
+
+        const photographer = {
+
+            fName: this.state.fName,
+            lName: this.state.lName,
+            gender: this.state.gender,
+            email: this.state.email,
+            workTitle: this.state.workTitle,
+            country: this.state.country,
+            city: this.state.city,
+            password: this.state.password,
+            profilePictureName: this.state.profilePictureName
+        }
+        console.log(photographer);
+        const apiUrl = "https://localhost:5001/photographer/getAllPhotographers";
+        fetch(apiUrl)
+            .then((response) => response.json())
+            .then((data) => console.log('This is your data', data));
+
+        // Simple POST request with a JSON body using fetch
+        const requestOptions = {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ photographer })
+        };
+        axios.post("https://urlhere.com", {
+            headers: JSON.stringify({ photographer })
+        })
+
+        // fetch('https://localhost:5001/photographer/InsertPhotographer')
+        // .then(response => response.json())
+        // .then(data => console.log("This is the insert data", data));
+    }
+
 
 
 
@@ -165,7 +191,7 @@ class SignUp extends React.Component {
                     <Typography component="h1" variant="h5">
                         Sign up
         </Typography>
-                    <form className={classes.form} noValidate>
+                    <form className={classes.form} onSubmit={this.HandleSubmit(this.onSubmit)} noValidate>
                         <Grid container spacing={2}>
                             <Grid item xs={12} sm={6}>
                                 <TextField
@@ -173,6 +199,7 @@ class SignUp extends React.Component {
                                     name="firstName"
                                     variant="outlined"
                                     required
+                                    onInput={e => this.setState({ fName: e.target.value })}
                                     fullWidth
                                     id="firstName"
                                     label="First Name"
@@ -188,6 +215,7 @@ class SignUp extends React.Component {
                                     label="Last Name"
                                     name="lastName"
                                     autoComplete="lname"
+                                    onInput={e => this.setState({ lName: e.target.value })}
                                 />
                             </Grid>
                             <Grid item xs={12}>
@@ -199,6 +227,7 @@ class SignUp extends React.Component {
                                     label="Email Address"
                                     name="email"
                                     autoComplete="email"
+                                    onInput={e => this.setState({ email: e.target.value })}
                                 />
                             </Grid>
                             <FormControl className={classes.formControl}>
@@ -214,28 +243,6 @@ class SignUp extends React.Component {
                                     <MenuItem value={30}>Thirty</MenuItem>
                                 </Select>
                             </FormControl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
                             <Grid item xs={12}>
                                 <TextField
                                     variant="outlined"
@@ -245,6 +252,7 @@ class SignUp extends React.Component {
                                     label="City "
                                     name="city"
                                     autoComplete="city"
+                                    onInput={e => this.setState({ city: e.target.value })}
                                 />
                             </Grid>
                             <Grid item xs={12}>
@@ -256,19 +264,9 @@ class SignUp extends React.Component {
                                     label="Work Title"
                                     name="title"
                                     autoComplete="title"
+                                    onInput={e => this.setState({ workTitle: e.target.value })}
                                 />
                             </Grid>
-
-
-
-
-
-
-
-
-
-
-
                             <FormControl className={classes.formControl}>
                                 <InputLabel id="demo-simple-select-label">Gender</InputLabel>
                                 <Select
@@ -292,21 +290,9 @@ class SignUp extends React.Component {
                                     type="password"
                                     id="password"
                                     autoComplete="current-password"
+                                    onInput={e => this.setState({ password: e.target.value })}
                                 />
                             </Grid>
-
-
-
-
-
-
-
-
-
-
-
-
-
                             <Grid item xs={12}>
                                 <FormControlLabel
                                     control={<Checkbox value="allowExtraEmails" color="primary" />}
@@ -315,10 +301,11 @@ class SignUp extends React.Component {
                             </Grid>
                         </Grid>
                         <Button
-                            type="submit"
+
                             fullWidth
                             variant="contained"
                             color="primary"
+                            onClick={this.HandleSubmit}
                             className={classes.submit}
                         >
                             Sign Up
