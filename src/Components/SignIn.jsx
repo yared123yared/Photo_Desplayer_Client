@@ -14,6 +14,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import { withStyles } from '@material-ui/core/styles';
 
+
 const useStyles = theme => ({
     paper: {
         marginTop: theme.spacing(8),
@@ -35,14 +36,28 @@ const useStyles = theme => ({
 });
 
 class SignIn extends React.Component {
+
+    state = {
+        autorisedzUser: [],
+        isAutorized: false,
+        email: '',
+        password: ''
+    }
+
     componentDidMount = () => {
 
         const proxyurl = 'https://cors-anywhere.herokuapp.com/';
         const apiUrl = "https://localhost:5001/Authentication/getAllAuthentictedUser";
 
-        fetch(apiUrl)
+        setTimeout(fetch(apiUrl)
             .then((response) => response.json())
-            .then((data) => console.log('This is your data', data));
+            .then((data) => {
+                console.log("data from server side", data);
+                this.setState({ autorisedzUser: data });
+            }), 20);
+
+
+
     }
     Copyright = () => {
         return (
@@ -55,6 +70,54 @@ class SignIn extends React.Component {
                 {'.'}
             </Typography>
         );
+    }
+    handleLogin = () => {
+        const singleUser = this.state.autorisedzUser;
+        // handle login method
+        console.log("this is the autorized user came from the database", this.state.autorisedzUser);
+        console.log("email: ", this.state.email);
+        console.log("pasword", this.state.password);
+
+        const user = {
+            email: this.state.email,
+            password: this.state.password
+        }
+        for (var index = 0; index < singleUser.length; index++) {
+
+
+
+            if (user.email == singleUser[index].email) {
+                if (user.password == singleUser[index].password) {
+                    console.log("autorized user");
+                    break;
+                } else {
+
+
+                    console.log("incorrect password");
+                    break;
+                }
+            } else {
+                console.log("incorrect email and passowrd");
+
+            }
+
+        };
+
+
+
+
+
+
+
+
+        // if (this.state.autorisedzUser.includes(user)) {
+        // console.log("Autorized used");
+        // this.setState({ isAutorized: true });
+        // }
+        // else {
+        // console.log("the user is not registered");
+        // }
+
     }
 
     render() {
@@ -80,6 +143,7 @@ class SignIn extends React.Component {
                             name="email"
                             autoComplete="email"
                             autoFocus
+                            onInput={e => this.setState({ email: e.target.value })}
                         />
                         <TextField
                             variant="outlined"
@@ -91,13 +155,14 @@ class SignIn extends React.Component {
                             type="password"
                             id="password"
                             autoComplete="current-password"
+                            onInput={e => this.setState({ password: e.target.value })}
                         />
                         <FormControlLabel
                             control={<Checkbox value="remember" color="primary" />}
                             label="Remember me"
                         />
                         <Button
-                            type="submit"
+                            onClick={this.handleLogin}
                             fullWidth
                             variant="contained"
                             color="primary"
