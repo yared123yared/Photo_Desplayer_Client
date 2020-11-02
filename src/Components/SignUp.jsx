@@ -61,13 +61,14 @@ class SignUp extends React.Component {
 
         fName: '',
         lName: '',
-        gender: '',
+        gender: 'Male',
         email: '',
         workTitle: '',
-        country: '',
+        country: 'Ethiopia',
         city: '',
         password: '',
-        profilePictureName: 'yared.jpg'
+        profilePictureName: 'yared.jpg',
+        postResponse: null,
 
 
 
@@ -108,18 +109,29 @@ class SignUp extends React.Component {
     }
 
     handleCountryChange = (event) => {
-        this.setState({
-            country: event.target.value
-        })
+        // this.setState({
+        // country: event.target.value
+        // })
         // setCountry();
     };
     handleGenderChange = (event) => {
-        this.setState({
-            country: event.target.value
-        })
+        // this.setState({
+        // country: event.target.value
+        // })
         // setGender(event.target.value);
     };
-    HandleSubmit = (event) => {
+
+    onChange = (e) => {
+        let files = e.target.files;
+        console.warn("data file", files);
+        let reader = new FileReader();
+        reader.readAsDataURL(files[0]);
+        reader.onload = (e) => {
+            console.warn("img data", e.target.result);
+            this.setState({ profilePictureName: e.target.result })
+        }
+    }
+    HandleSubmit = () => {
         console.log("submit button clicked");
         // console.log("this is the value from the sumbit button", event.firstName);
         // console.log(this.state.FName, this.state.LName, this.state.Email, this.state.City, this.state.Country, this.state.Password);
@@ -161,11 +173,56 @@ class SignUp extends React.Component {
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ photographer })
+            body: JSON.stringify({
+                fName: this.state.fName,
+                lName: this.state.lName,
+                gender: this.state.gender,
+                email: this.state.email,
+                workTitle: this.state.workTitle,
+                country: this.state.country,
+                city: this.state.city,
+                password: this.state.password,
+                profilePictureName: this.state.profilePictureName
+            })
         };
-        axios.post("https://urlhere.com", {
-            headers: JSON.stringify({ photographer })
-        })
+
+        // Simple POST rJSON.stringify({ photographer });
+        const article = JSON.stringify({
+            fName: this.state.fName,
+            lName: this.state.lName,
+            gender: this.state.gender,
+            email: this.state.email,
+            workTitle: this.state.workTitle,
+            country: this.state.country,
+            city: this.state.city,
+            password: this.state.password,
+            profilePictureName: this.state.profilePictureName
+        });
+        console.log(article);
+        fetch('https://localhost:5001/photographer/InsertPhotographer', requestOptions)
+            .then(response => {
+                response.json();
+                console.log("response", response);
+                if (response.status == 200) {
+                    this.props.history.push('/login');
+
+                }
+            });
+
+
+
+
+
+
+
+        /*  
+          axios.post('https://localhost:5001/photographer/InsertPhotographer', article)
+              .then(response => this.setState({ articleId: response.data.id }));
+          console.log("status code", this.state.articleId);
+          */
+
+
+
 
         // fetch('https://localhost:5001/photographer/InsertPhotographer')
         // .then(response => response.json())
@@ -191,7 +248,7 @@ class SignUp extends React.Component {
                     <Typography component="h1" variant="h5">
                         Sign up
         </Typography>
-                    <form className={classes.form} onSubmit={this.HandleSubmit(this.onSubmit)} noValidate>
+                    <form className={classes.form} noValidate>
                         <Grid container spacing={2}>
                             <Grid item xs={12} sm={6}>
                                 <TextField
@@ -299,7 +356,9 @@ class SignUp extends React.Component {
                                     label="I want to receive inspiration, marketing promotions and updates via email."
                                 />
                             </Grid>
+                            <input type="file" name="file" onChange={(e) => this.onChange(e)} />
                         </Grid>
+
                         <Button
 
                             fullWidth
@@ -309,7 +368,7 @@ class SignUp extends React.Component {
                             className={classes.submit}
                         >
                             Sign Up
-          </Button>
+                        </Button>
                         <Grid container justify="flex-end">
                             <Grid item>
                                 <Link href="/login" variant="body2">

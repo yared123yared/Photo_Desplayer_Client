@@ -73,6 +73,34 @@ class SignIn extends React.Component {
             </Typography>
         );
     }
+    addLoggedInUser = (email) => {
+        console.log("This is the email address currently logged in", email);
+        const requestOptions = {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+
+
+
+                email: email,
+
+
+
+
+
+            })
+        };
+        fetch('https://localhost:5001/LoggedInPhotographer/InsertLogedInPhotographer', requestOptions)
+            .then(response => {
+                response.json();
+                console.log("added user >> response", response);
+
+
+
+            });
+    }
     handleLogin = () => {
         const singleUser = this.state.autorisedzUser;
         // handle login method
@@ -91,7 +119,28 @@ class SignIn extends React.Component {
             if (user.email == singleUser[index].email) {
                 if (user.password == singleUser[index].password) {
                     console.log("autorized user");
-                    window.open("/home");
+                    this.addLoggedInUser(user.email);
+                    this.props.history.push('/home');
+                    // window.open("/home");
+                    // <Link
+                    // to={{
+                    // pathname: "/home",
+                    // email: user.email // your data array of objects
+                    // }}
+                    // >Go to Home</Link>
+                    // this.props.history.push({
+                    // pathname: '/home',
+                    // email: user.email // your data array of objects
+                    // })
+
+                    // this.props.history.push({
+                    // pathname: '/home',
+                    // data: {
+                    // email: user.email
+                    // }
+                    // your data array of objects
+                    // })
+
                     break;
                 } else {
 

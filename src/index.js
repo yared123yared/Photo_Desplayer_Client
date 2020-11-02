@@ -10,10 +10,18 @@ const routing = (
   <BrowserRouter>
 
     <div>
+      <Route exact path="/home" component={App} />
+      <Route exact path="/login" component={Login} />
+      <Route exact path="/signUp" component={SignUp} />
 
-      <Route path="/login" component={Login} />
-      <Route path="/signUp" component={SignUp} />
-      <Route path="/home" component={App} />
+      {/* <Route exact path="/home/:email" component={App} /> */}
+
+      {/* <Route path="/home" render={() => <div>Home</div>} /> */}
+
+      {/* render = {props => <PageStart {...props} key={this.props.location.key} />} /> */}
+
+
+
 
     </div>
 
